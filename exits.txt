@@ -1,4 +1,0 @@
-1,1,2,a long winding path of dirt leads up a nearby hill with a manor atop it.,north,
-2,2,1,the path leading away from the house snakes down towards a nearby field.,south,
-3,1,3,a small game trail leading into a stretch of woods seems like it may lead you back home.,east,
-4,3,1,the narrow winding path back to the field... It seems particularly inviting right about now.,west,

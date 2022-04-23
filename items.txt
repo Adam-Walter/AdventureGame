@@ -1,2 +1,0 @@
-1,Rusted Sword,An old rusted blade maybe a formitable weapon at one time now it may as well just be a blunt bar of iron,sword blade longsword,
-2,Rusted Shotsword,Very much like another blade you could swear that you saw.. only worse.,sword blade shortsword,

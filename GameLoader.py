@@ -1,3 +1,5 @@
+import json
+
 roomdict = {
     
     }
@@ -8,6 +10,9 @@ itemdict = {
     
     }
 containerdict = {
+    
+    }
+npcdict = {
     
     }
 
@@ -24,6 +29,8 @@ class Player:
         return self.inv
     def changelocation(self,d):
         self.location = d
+    def damage(self,d):
+        self.health -= d
 
 class Room:
     def __init__(self,id,name,description,inv,containers,npcs,exits):
@@ -55,9 +62,9 @@ class Room:
                 p.changelocation(exitdict[i].getfinish())
                 valid = True
         if valid == True:
-            return "You go " + d
+            return "You go to the " + d + "."
         else:
-            return d + " is not a valid direction to travel."
+            return "There is nowhere to go to the " + d + "." 
 
 class Exit:
     def __init__(self,id,start,finish,description,direction):
@@ -93,13 +100,14 @@ class Item:
         return self.tags
 
 class Container:
-    def __init__(self,id,name,description,inv,open,key):
+    def __init__(self,id,name,description,inv,open,key,tags):
         self.id = id
         self.name = name
         self.description = description
         self.inv = inv
         self.open = open
         self.key = key
+        self.tags = tags
     def getid(self):
         return self.id
     def getname(self):
@@ -112,32 +120,63 @@ class Container:
         return self.open
     def getkey(self):
         return self.key
+    def gettags(self):
+        return self.tags
 
-with open ("rooms.txt", "r") as roomfile:
-    line = roomfile.readline()
-    while line != '':
-        items = line.split(',')
-        roomdict[items[0]] = Room(items[0],items[1],items[2],items[3].split(' '),items[4].split(' '),items[5].split(' '),items[6].split(' '))
-        line = roomfile.readline()
-with open ('exits.txt', 'r') as exitfile:
-    line = exitfile.readline()
-    while line != '':
-        items = line.split(',')
-        exitdict[items[0]] = Exit(items[0],items[1],items[2],items[3],items[4])
-        line = exitfile.readline()
-with open ('items.txt', 'r') as itemfile:
-    line = itemfile.readline()
-    while line != '':
-        items = line.split(',')
-        itemdict[items[0]] = Item(items[0],items[1],items[2],items[3].split(' '))
-        line = itemfile.readline()
-with open ("containers.txt", "r") as containerfile:
-    line = containerfile.readline()
-    while line != '':
-        items = line.split(',')
-        containerdict[items[0]] = Container(items[0],items[1],items[2],items[3].split(' '),items[4],items[5])
-        line = containerfile.readline()
-with open ('player.txt', 'r') as playerfile:
-    line = playerfile.readline()
-    items = line.split(',')
-    player = Player(items[0],items[1],items[2].split(' '))
+class Npc:
+    def __init__(self,id,name,description,inv,tags):
+        self.id = id
+        self.name = name
+        self.description = description
+        self.inv = inv
+        self.tags = tags
+    def getid(self):
+        return self.id
+    def getname(self):
+        return self.name
+    def getdescription(self):
+        return self.description
+    def getinv(self):
+        return self.inv
+    def gettags(self):
+        return self.tags
+
+rfile = open('rooms.json')
+data = json.load(rfile)
+for i in data:
+    k = data[i]
+    roomdict[i] = Room(i,k['name'],k['description'],k['inv'],k['containers'],k['npcs'],k['exits'])
+rfile.close()
+
+efile = open('exits.json')
+data = json.load(efile)
+for i in data:
+    k = data[i]
+    exitdict[i] = Exit(i,k['start'],k['finish'],k['description'],k['direction'])
+efile.close()
+
+ifile = open('items.json')
+data = json.load(ifile)
+for i in data:
+    k = data[i]
+    itemdict[i] = Item(i,k['name'],k['description'],k['tags'])
+ifile.close()
+
+cfile = open('containers.json')
+data = json.load(cfile)
+for i in data:
+    k = data[i]
+    containerdict[i] = Container(i,k['name'],k['description'],k['inv'],k['open'],k['key'],k['tags'])
+cfile.close()
+
+nfile = open('npcs.json')
+data = json.load(nfile)
+for i in data:
+    k = data[i]
+    npcdict[i] = Npc(i,k['name'],k['description'],k['inv'],k['tags'])
+nfile.close()
+
+pfile = open('player.json')
+data = json.load(pfile)
+player = Player(data['location'],data['health'],data['inv'])
+cfile.close()

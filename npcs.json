@@ -1,0 +1,14 @@
+{
+  "1": {
+    "name": "Bloody Cultist",
+    "description": "A cultist in dark red robes stained in blood holding a wicked looking dagger.",
+    "inv": [ "3" ],
+    "tags": [ "enemy", "satanist", "cultist", "man" ]
+  },
+  "2": {
+    "name": "Wailing Ghoul",
+    "description": "A hunched figure surrounded by cat food and glue, he wails for the day man that could not manage to protect this little boys soul.",
+    "inv": [ "3" ],
+    "tags": [ "enemy", "ghoul", "monster", "charlie" ]
+  }
+}

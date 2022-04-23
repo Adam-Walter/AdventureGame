@@ -1,0 +1,10 @@
+{
+  "1": {
+    "name": "Oak Chest",
+    "description": "An old oak chest worn with age",
+    "inv": [ "2" ],
+    "open": false,
+    "key": [],
+    "tags": ["chest","oak","trunk","box"]
+  }
+}

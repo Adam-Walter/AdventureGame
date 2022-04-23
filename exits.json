@@ -1,0 +1,26 @@
+{
+  "1": {
+    "start": "1",
+    "finish": "2",
+    "description": "a long winding path of dirt leads up a nearby hill with a manor atop it.",
+    "direction": "north"
+  },
+  "2": {
+    "start": "2",
+    "finish": "1",
+    "description": "the path leading away from the house snakes down towards a nearby field.",
+    "direction": "south"
+  },
+  "3": {
+    "start": "1",
+    "finish": "3",
+    "description": "a small game trail leading into a stretch of woods seems like it may lead you back home.",
+    "direction": "east"
+  },
+  "4": {
+    "start": "3",
+    "finish": "1",
+    "description": "the narrow winding path back to the field... It seems particularly inviting right about now.",
+    "direction": "west"
+  }
+}
