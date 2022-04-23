@@ -124,10 +124,11 @@ class Container:
         return self.tags
 
 class Npc:
-    def __init__(self,id,name,description,inv,tags):
+    def __init__(self,id,name,description,health,inv,tags):
         self.id = id
         self.name = name
         self.description = description
+        self.health = health
         self.inv = inv
         self.tags = tags
     def getid(self):
@@ -136,6 +137,8 @@ class Npc:
         return self.name
     def getdescription(self):
         return self.description
+    def gethealth(self):
+        return self.health
     def getinv(self):
         return self.inv
     def gettags(self):
