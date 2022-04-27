@@ -2,16 +2,19 @@
   "1": {
     "name": "Rusted Sword",
     "description": "An old rusted blade, maybe a formitable weapon at one time, now it may as well just be a blunt bar of iron.",
+    "damage": 50,
     "tags": [ "sword", "blade", "longsword" ]
   },
   "2": {
     "name": "Rusted Shortword",
     "description": "Very much like another blade you could have sworn that you saw.. only much worse.",
+    "damage": 30,
     "tags": [ "sword", "blade", "shortsword" ]
   },
   "3": {
     "name": "Wicked Dagger",
     "description": "A terrifying dagger with a red ruby in the handle, and a serrated edge designed to tear open arteries and let blood rush forth...",
+    "damage": 75,
     "tags": [ "dagger", "blade", "knife" ]
   }
 }

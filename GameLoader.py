@@ -55,6 +55,8 @@ class Room:
         return self.npcs
     def getexits(self):
         return self.exits
+    def killnpc(self,npc):
+        self.npcs.remove(npc)
     def move(self,p,d):
         valid = False
         for i in self.exits:
@@ -62,9 +64,9 @@ class Room:
                 p.changelocation(exitdict[i].getfinish())
                 valid = True
         if valid == True:
-            return "You go to the " + d + "."
+            return "You travel to the " + d + "."
         else:
-            return "There is nowhere to go to the " + d + "." 
+            return "There is no clear path to the " + d + "." 
 
 class Exit:
     def __init__(self,id,start,finish,description,direction):
@@ -85,10 +87,11 @@ class Exit:
         return self.direction
 
 class Item:
-    def __init__(self,id,name,description,tags):
+    def __init__(self,id,name,description,damage,tags):
         self.id = id
         self.name = name
         self.description = description
+        self.damage = damage
         self.tags = tags
     def getid(self):
         return self.id
@@ -96,6 +99,8 @@ class Item:
         return self.name
     def getdescription(self):
         return self.description
+    def getdamage(self):
+        return self.damage
     def gettags(self):
         return self.tags
 
@@ -143,6 +148,13 @@ class Npc:
         return self.inv
     def gettags(self):
         return self.tags
+    def damage(self,d):
+        self.health -= d
+        if self.health > 0:
+            return "The " + self.name + " takes " + str(d) + " damage!"
+        else:
+            roomdict[player.getlocation()].killnpc(self.id)
+            return "The " + self.name + " takes " + str(d) + " damage, and is slain!"
 
 rfile = open('rooms.json')
 data = json.load(rfile)
@@ -162,7 +174,7 @@ ifile = open('items.json')
 data = json.load(ifile)
 for i in data:
     k = data[i]
-    itemdict[i] = Item(i,k['name'],k['description'],k['tags'])
+    itemdict[i] = Item(i,k['name'],k['description'],k['damage'],k['tags'])
 ifile.close()
 
 cfile = open('containers.json')
@@ -176,7 +188,7 @@ nfile = open('npcs.json')
 data = json.load(nfile)
 for i in data:
     k = data[i]
-    npcdict[i] = Npc(i,k['name'],k['description'],k['inv'],k['tags'])
+    npcdict[i] = Npc(i,k['name'],k['description'],k['health'],k['inv'],k['tags'])
 nfile.close()
 
 pfile = open('player.json')
