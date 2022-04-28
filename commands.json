@@ -7,5 +7,9 @@
   "look": "look",
   "inspect": "look",
   "ponder": "look",
-  "observe": "look"
+  "observe": "look",
+  "take": "take",
+  "drop": "drop",
+  "inv": "checkinv",
+  "open": "open"
 }

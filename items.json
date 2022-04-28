@@ -6,7 +6,7 @@
     "tags": [ "sword", "blade", "longsword" ]
   },
   "2": {
-    "name": "Rusted Shortword",
+    "name": "Rusted Shortsword",
     "description": "Very much like another blade you could have sworn that you saw.. only much worse.",
     "damage": 30,
     "tags": [ "sword", "blade", "shortsword" ]

@@ -18,48 +18,54 @@ npcdict = {
 
 class Player:
     def __init__(self,location,health,inv):
-        self.location = location
-        self.health = health
-        self.inv = inv
+        self.__location = location
+        self.__health = health
+        self.__inv = inv
     def getlocation(self):
-        return self.location
+        return self.__location
     def gethealth(self):
-        return self.health
+        return self.__health
     def getinv(self):
-        return self.inv
+        return self.__inv
     def changelocation(self,d):
-        self.location = d
+        self.__location = d
+    def giveitem(self,item):
+        self.__inv.append(item)
+    def dropitem(self,item):
+        self.__inv.remove(item)
+        roomdict[self.__location].additem(item)
+        return "You dropped the " + itemdict[item].getname() + ".  "
     def damage(self,d):
-        self.health -= d
+        self.__health -= d
 
 class Room:
     def __init__(self,id,name,description,inv,containers,npcs,exits):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.inv = inv
-        self.containers = containers
-        self.npcs = npcs
-        self.exits = exits
+        self.__id = id
+        self.__name = name
+        self.__description = description
+        self.__inv = inv
+        self.__containers = containers
+        self.__npcs = npcs
+        self.__exits = exits
     def getid(self):
-        return self.id
+        return self.__id
     def getname(self):
-        return self.name
+        return self.__name
     def getdescription(self):
-        return self.description
+        return self.__description
     def getinv(self):
-        return self.inv
+        return self.__inv
     def getcontainers(self):
-        return self.containers
+        return self.__containers
     def getnpcs(self):
-        return self.npcs
+        return self.__npcs
     def getexits(self):
-        return self.exits
+        return self.__exits
     def killnpc(self,npc):
-        self.npcs.remove(npc)
+        self.__npcs.remove(npc)
     def move(self,p,d):
         valid = False
-        for i in self.exits:
+        for i in self.__exits:
             if exitdict[i].getdirection() == d:
                 p.changelocation(exitdict[i].getfinish())
                 valid = True
@@ -67,94 +73,115 @@ class Room:
             return "You travel to the " + d + "."
         else:
             return "There is no clear path to the " + d + "." 
+    def takeitem(self,item):
+        if item in self.__inv:
+            self.__inv.remove(item)
+        else:
+            b = False
+            for i in self.__containers:
+                if containerdict[i].getopen() == True:
+                    if item in containerdict[i].getinv():
+                        containerdict[i].remove(item)
+                        b = True
+                if b == True:
+                    break
+        player.giveitem(item)
+        return "You take the " + itemdict[item].getname() + ".  "
+    def additem(self,item):
+        self.__inv.append(item)
 
 class Exit:
     def __init__(self,id,start,finish,description,direction):
-        self.id = id 
-        self.start = start
-        self.finish = finish
-        self.description = description
-        self.direction = direction
+        self.__id = id 
+        self.__start = start
+        self.__finish = finish
+        self.__description = description
+        self.__direction = direction
     def getid(self):
-        return self.id
+        return self.__id
     def getstart(self):
-        return self.start
+        return self.__start
     def getfinish(self):
-        return self.finish
+        return self.__finish
     def getdescription(self):
-        return self.description
+        return self.__description
     def getdirection(self):
-        return self.direction
+        return self.__direction
 
 class Item:
     def __init__(self,id,name,description,damage,tags):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.damage = damage
-        self.tags = tags
+        self.__id = id
+        self.__name = name
+        self.__description = description
+        self.__damage = damage
+        self.__tags = tags
     def getid(self):
-        return self.id
+        return self.__id
     def getname(self):
-        return self.name
+        return self.__name
     def getdescription(self):
-        return self.description
+        return self.__description
     def getdamage(self):
-        return self.damage
+        return self.__damage
     def gettags(self):
-        return self.tags
+        return self.__tags
 
 class Container:
     def __init__(self,id,name,description,inv,open,key,tags):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.inv = inv
-        self.open = open
-        self.key = key
-        self.tags = tags
+        self.__id = id
+        self.__name = name
+        self.__description = description
+        self.__inv = inv
+        self.__open = open
+        self.__key = key
+        self.__tags = tags
     def getid(self):
-        return self.id
+        return self.__id
     def getname(self):
-        return self.name
+        return self.__name
     def getdescription(self):
-        return self.description
+        return self.__description
     def getinv(self):
-        return self.inv
+        return self.__inv
     def getopen(self):
-        return self.open
+        return self.__open
     def getkey(self):
-        return self.key
+        return self.__key
     def gettags(self):
-        return self.tags
+        return self.__tags
+    def open(self):
+        self.__open = True
+        return "You open the " + self.__name + ".  "
+    def remove(self,item):
+        self.__inv.remove(item)
 
 class Npc:
     def __init__(self,id,name,description,health,inv,tags):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.health = health
-        self.inv = inv
-        self.tags = tags
+        self.__id = id
+        self.__name = name
+        self.__description = description
+        self.__health = health
+        self.__inv = inv
+        self.__tags = tags
     def getid(self):
-        return self.id
+        return self.__id
     def getname(self):
-        return self.name
+        return self.__name
     def getdescription(self):
-        return self.description
+        return self.__description
     def gethealth(self):
-        return self.health
+        return self.__health
     def getinv(self):
-        return self.inv
+        return self.__inv
     def gettags(self):
-        return self.tags
+        return self.__tags
     def damage(self,d):
-        self.health -= d
-        if self.health > 0:
-            return "The " + self.name + " takes " + str(d) + " damage!"
+        self.__health -= d
+        if self.__health > 0:
+            return "The " + self.__name + " takes " + str(d) + " damage!"
         else:
-            roomdict[player.getlocation()].killnpc(self.id)
-            return "The " + self.name + " takes " + str(d) + " damage, and is slain!"
+            roomdict[player.getlocation()].killnpc(self.__id)
+            return "The " + self.__name + " takes " + str(d) + " damage, and is slain!"
 
 rfile = open('rooms.json')
 data = json.load(rfile)

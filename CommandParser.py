@@ -1,4 +1,5 @@
 import json
+from os import name
 import GameLoader as gl
 
 cfile = open('commands.json')
@@ -24,6 +25,14 @@ def parseinput(input):
             return attack(i)        
         if commandtype == 'look':
             return look(i)
+        if commandtype == 'take':
+            return take(i)
+        if commandtype == 'drop':
+            return drop(i)
+        if commandtype == 'checkinv':
+            return checkinv(i)
+        if commandtype == 'open':
+            return open(i)
     else:
         return "I'm sorry, that command was not valid."
 
@@ -79,18 +88,21 @@ def displayenv():
 
     for i in gl.roomdict[gl.player.getlocation()].getcontainers():
         if gl.containerdict[i].getopen() == True:
-            s+="In the " + gl.containerdict[i].getname() + " there is "
             __invlen = len(gl.containerdict[i].getinv())
+            if __invlen == 0:
+                s+="The " + gl.containerdict[i].getname() + " is empty.  "
             __count = 1
             for k in gl.containerdict[i].getinv():
                 if gl.itemdict[k].getname()[0].lower() in ['a','e','i','o','u']:
                     __aan = 'an '
                 else:
                     __aan = 'a ' 
-                if __count >= 1 and __count != __invlen:
-                    s+= __aan + gl.itemdict[k].getname() + ", "
+                if __count == 1 and __count != __invlen:
+                    s+="In the " + gl.containerdict[i].getname() + " there is " + __aan + gl.itemdict[k].getname() + ", "
                 elif __count == 1 and __count == __invlen:
-                    s+= __aan + gl.itemdict[k].getname() + ".  "
+                    s+="In the " + gl.containerdict[i].getname() + " there is " + __aan + gl.itemdict[k].getname() + ".  "
+                if __count > 1 and __count != __invlen:
+                    s+= __aan + gl.itemdict[k].getname() + ", "
                 elif __count == __invlen and __count > 1:
                     s+= "and " + __aan + gl.itemdict[k].getname() + ".  "
                 __count += 1
@@ -168,3 +180,57 @@ def attack(i):
             return 'You attack the ' + target.getname() + ' with your fists!  ' + target.damage(10)
     else:
         return 'You do not have a ' + tag
+
+def take(i):
+    target = ''
+    for k in i:
+        have = True
+        if k in itemtags:
+            have = False
+            tag = k
+        for j in gl.roomdict[gl.player.getlocation()].getinv():
+            if k.lower() in gl.itemdict[j].gettags():
+                target = gl.itemdict[j]
+                have = True
+        for j in gl.roomdict[gl.player.getlocation()].getcontainers():
+            for l in gl.containerdict[j].getinv():
+                if k.lower() in gl.itemdict[l].gettags():
+                    target = gl.itemdict[l]
+                    have = True
+    if target != '' and have == True:
+        return gl.roomdict[gl.player.getlocation()].takeitem(target.getid())
+    elif target == '' and have == False:
+        return "That item is not here."
+    else:
+        return "That is not a valid item."
+
+def drop(i):
+    target = ''
+    for k in i:
+        have = True
+        if k in itemtags:
+            have = False
+            tag = k
+        for j in gl.player.getinv():
+            if k.lower() in gl.itemdict[j].gettags():
+                target = gl.itemdict[j]
+                have = True
+    if target != '' and have == True:
+        return gl.player.dropitem(target.getid())
+    elif target == '' and have == False:
+        return "That item is not in your inventory."
+    else:
+        return "That is not a valid item."
+
+def checkinv(i):
+    s = "Your inventory contains: \n"
+    for i in gl.player.getinv():
+        s+= gl.itemdict[i].getname() + ", \n"
+    return s
+def open(i):
+    target = ''
+    for k in i:
+        for j in gl.roomdict[gl.player.getlocation()].getcontainers():
+            if k in gl.containerdict[j].gettags():
+                target = gl.containerdict[j]
+    return target.open()
