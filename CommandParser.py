@@ -1,19 +1,17 @@
+#importing modules that need to be referanced by the parser
 import json
-from os import name
 import GameLoader as gl
-
+#open commands.json and create a dictionary off all possible command words and what command they reference
 cfile = open('data/commands.json')
 commanddict = json.load(cfile)
 cfile.close()
-
+#open itemtags.json and create a list off all possible words that will reference a weapon
 tfile = open('data/itemtags.json')
 itemtags = json.load(tfile)
 tfile.close()
-
+#The main function to parse the player input, determine the type of command they are trying to execute, and passing the input to the relevent function to execute the command
 def parseinput(input):
     commandtype = ''
-    target = ''
-    argument = ''
     i = input.split(' ')
     for k in i:
         if k.lower() in commanddict.keys():
@@ -35,10 +33,11 @@ def parseinput(input):
             return open(i)
     else:
         return "I'm sorry, that command was not valid."
-
+#Parse through the room that the player is currently in and format all of the enviroment, item, and npc data into a format that is ready to print to the terminal
 def displayenv():
+    #add the description of the current room to the output string
     s = gl.roomdict[gl.player.getlocation()].getdescription() + '  '
-
+    #add the exit paths and their description
     __exitlen = len(gl.roomdict[gl.player.getlocation()].getexits())
     __count = 1
     for i in gl.roomdict[gl.player.getlocation()].getexits():
@@ -51,7 +50,7 @@ def displayenv():
         elif __count == __exitlen and __count > 1:
             s+="and to the " + gl.exitdict[i].getdirection() + " there is " + gl.exitdict[i].getdescription() + '.  '
         __count += 1
-
+    #Determine the items that are in the room and add them as a gramatically correct list
     __invlen = len(gl.roomdict[gl.player.getlocation()].getinv())
     __count = 1
     for i in gl.roomdict[gl.player.getlocation()].getinv():
@@ -68,7 +67,7 @@ def displayenv():
         elif __count == __invlen and __count > 1:
             s+= "and " + __aan + gl.itemdict[i].getname() + '.  '
         __count += 1
-
+    #Determine if there are any container type objects and add them to the output
     __contlen = len(gl.roomdict[gl.player.getlocation()].getcontainers())
     __count = 1
     for i in gl.roomdict[gl.player.getlocation()].getcontainers():
@@ -85,7 +84,7 @@ def displayenv():
         elif __count == __contlen and __count > 1:
             s+="and " + __aan + gl.containerdict[i].getname() + '. '
         __count += 1
-
+    #if a container in the room is open add a list of objects that are inside it to the output
     for i in gl.roomdict[gl.player.getlocation()].getcontainers():
         if gl.containerdict[i].getopen() == True:
             __invlen = len(gl.containerdict[i].getinv())
@@ -106,7 +105,7 @@ def displayenv():
                 elif __count == __invlen and __count > 1:
                     s+= "and " + __aan + gl.itemdict[k].getname() + ".  "
                 __count += 1
-
+    #determine if there are npcs in the room and add them to the output if there are
     __npclen = len(gl.roomdict[gl.player.getlocation()].getnpcs())
     __count = 1
     for i in gl.roomdict[gl.player.getlocation()].getnpcs():
@@ -125,7 +124,7 @@ def displayenv():
         __count += 1
 
     return s
-
+#Function to return the description of what the player is attempting to look at or if no target is determined returns a description of the enviroment using the displayenv function
 def look(i):
     target = ''
     for j in i:
@@ -142,7 +141,7 @@ def look(i):
         return target.getdescription()
     else:
         return displayenv()
-
+#function to move the player betwean rooms
 def move(i):
     target = ''
     for k in i:
@@ -151,7 +150,7 @@ def move(i):
             return gl.roomdict[gl.player.getlocation()].move(gl.player,target) + "\n" + displayenv()
     if target == '':
         return "I'm sorry I don't understand where you want to move to."
-
+#function to attack an npc within the enviroment, either with nothing or an object that the player possesses in their inventory 
 def attack(i):
     argument = ''
     target = ''
@@ -180,7 +179,7 @@ def attack(i):
             return 'You attack the ' + target.getname() + ' with your fists!  ' + target.damage(10)
     else:
         return 'You do not have a ' + tag
-
+#Function for the player to take an object from the enviroment
 def take(i):
     target = ''
     for k in i:
@@ -203,7 +202,7 @@ def take(i):
         return "That item is not here."
     else:
         return "That is not a valid item."
-
+#function for the player to drop an object from their inventory into the enviroment
 def drop(i):
     target = ''
     for k in i:
@@ -221,12 +220,13 @@ def drop(i):
         return "That item is not in your inventory."
     else:
         return "That is not a valid item."
-
+#function to display the objects within the player inventory
 def checkinv(i):
     s = "Your inventory contains: \n"
     for i in gl.player.getinv():
         s+= gl.itemdict[i].getname() + ", \n"
     return s
+#function to open a container
 def open(i):
     target = ''
     for k in i:
