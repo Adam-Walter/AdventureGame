@@ -183,42 +183,42 @@ class Npc:
             roomdict[player.getlocation()].killnpc(self.__id)
             return "The " + self.__name + " takes " + str(d) + " damage, and is slain!"
 
-rfile = open('rooms.json')
+rfile = open('data/rooms.json')
 data = json.load(rfile)
 for i in data:
     k = data[i]
     roomdict[i] = Room(i,k['name'],k['description'],k['inv'],k['containers'],k['npcs'],k['exits'])
 rfile.close()
 
-efile = open('exits.json')
+efile = open('data/exits.json')
 data = json.load(efile)
 for i in data:
     k = data[i]
     exitdict[i] = Exit(i,k['start'],k['finish'],k['description'],k['direction'])
 efile.close()
 
-ifile = open('items.json')
+ifile = open('data/items.json')
 data = json.load(ifile)
 for i in data:
     k = data[i]
     itemdict[i] = Item(i,k['name'],k['description'],k['damage'],k['tags'])
 ifile.close()
 
-cfile = open('containers.json')
+cfile = open('data/containers.json')
 data = json.load(cfile)
 for i in data:
     k = data[i]
     containerdict[i] = Container(i,k['name'],k['description'],k['inv'],k['open'],k['key'],k['tags'])
 cfile.close()
 
-nfile = open('npcs.json')
+nfile = open('data/npcs.json')
 data = json.load(nfile)
 for i in data:
     k = data[i]
     npcdict[i] = Npc(i,k['name'],k['description'],k['health'],k['inv'],k['tags'])
 nfile.close()
 
-pfile = open('player.json')
+pfile = open('data/player.json')
 data = json.load(pfile)
 player = Player(data['location'],data['health'],data['inv'])
 cfile.close()

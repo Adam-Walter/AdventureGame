@@ -2,11 +2,11 @@ import json
 from os import name
 import GameLoader as gl
 
-cfile = open('commands.json')
+cfile = open('data/commands.json')
 commanddict = json.load(cfile)
 cfile.close()
 
-tfile = open('itemtags.json')
+tfile = open('data/itemtags.json')
 itemtags = json.load(tfile)
 tfile.close()
 
