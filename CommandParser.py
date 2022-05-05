@@ -79,10 +79,17 @@ def displayenv():
     __invlen = len(gl.roomdict[gl.player.getlocation()].getinv())
     __count = 1
     for i in gl.roomdict[gl.player.getlocation()].getinv():
+
+
+
+        #Determin the use of a or an before the item name
         if gl.itemdict[i].getname()[0].lower() in ['a','e','i','o','u']:
             __aan = 'an '
         else:
             __aan = 'a ' 
+
+
+
         if __count == 1 and __count != __invlen:
             s+= "You see " + __aan + gl.itemdict[i].getname() + ', '
         elif __count == 1 and __count == __invlen:
@@ -99,10 +106,17 @@ def displayenv():
     __contlen = len(gl.roomdict[gl.player.getlocation()].getcontainers())
     __count = 1
     for i in gl.roomdict[gl.player.getlocation()].getcontainers():
+
+
+
+        #Determin the use of a or an before the container name
         if gl.containerdict[i].getname()[0].lower() in ['a','e','i','o','u']:
             __aan = 'an '
         else:
-            __aan = 'a ' 
+            __aan = 'a '
+            
+
+
         if __count == 1 and __count != __contlen:
             s+="There is " + __aan + gl.containerdict[i].getname() + ', '
         elif __count == 1 and __count == __contlen:
@@ -123,10 +137,16 @@ def displayenv():
                 s+="The " + gl.containerdict[i].getname() + " is empty.  "
             __count = 1
             for k in gl.containerdict[i].getinv():
+
+
+                #Determin the use of a or an before the item name
                 if gl.itemdict[k].getname()[0].lower() in ['a','e','i','o','u']:
                     __aan = 'an '
                 else:
                     __aan = 'a ' 
+
+
+
                 if __count == 1 and __count != __invlen:
                     s+="In the " + gl.containerdict[i].getname() + " there is " + __aan + gl.itemdict[k].getname() + ", "
                 elif __count == 1 and __count == __invlen:
@@ -143,10 +163,17 @@ def displayenv():
     __npclen = len(gl.roomdict[gl.player.getlocation()].getnpcs())
     __count = 1
     for i in gl.roomdict[gl.player.getlocation()].getnpcs():
+
+
+
+        #Determin the use of a or an before the npc name
         if gl.npcdict[i].getname()[0].lower() in ['a','e','i','o','u']:
             __aan = 'an '
         else:
             __aan = 'a ' 
+
+
+
         if __count == 1 and __count != __npclen:
             s+= "There is " + __aan + gl.npcdict[i].getname() + ', '
         elif __count == 1 and __count == __npclen:
