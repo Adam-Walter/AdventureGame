@@ -24,9 +24,10 @@ for i in gl.itemdict:
 #The main function to parse the player input, determine the type of command they are trying to execute, and passing the input to the relevent function to execute the command
 def parseinput(input):
     commandtype = ''
-    i = input.split(' ')
+    i = input.lower()
+    i = i.split(' ')
     for k in i:
-        if k.lower() in commanddict.keys():
+        if k in commanddict.keys():
             commandtype = commanddict[k.lower()]
     if commandtype != '':
         if commandtype == 'move':
@@ -43,6 +44,8 @@ def parseinput(input):
             return checkinv(i)
         if commandtype == 'open':
             return open(i)
+        if commandtype == 'close':
+            return close(i)
     else:
         return "I'm sorry, that command was not valid."
 
@@ -325,3 +328,22 @@ def open(i):
             if k in gl.itemdict[j].gettags():
                 argument = gl.itemdict[j].getid()
     return target.open(argument)
+
+
+
+#function to close a container
+def close(i):
+    target = ''
+    for k in i:
+        for j in gl.roomdict[gl.player.getlocation()].getcontainers():
+            if k in gl.containerdict[j].gettags():
+                target = gl.containerdict[j]
+    return target.close()
+
+
+
+def getnpcaction():
+    s = ''
+    for i in gl.roomdict[gl.player.getlocation()].getnpcs():
+        s += gl.npcdict[i].action() + '\n'
+    return s + '\n'

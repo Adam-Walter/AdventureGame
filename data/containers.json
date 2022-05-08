@@ -5,6 +5,7 @@
     "inv": [ "2" ],
     "open": false,
     "key": [ "4" ],
+    "locked": true,
     "tags": [ "chest", "oak", "trunk" ]
   },
   "2": {
@@ -13,6 +14,7 @@
     "inv": [ "2","3","4" ],
     "open": true,
     "key": [],
+    "locked": false,
     "tags": [ "mail", "box", "mailbox", "box" ]
   }
 }

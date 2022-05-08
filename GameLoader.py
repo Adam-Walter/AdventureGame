@@ -80,6 +80,8 @@ class Room:
         valid = False
         for i in self.__exits:
             if exitdict[i].getdirection() == d:
+                for i in self.__npcs:
+                    npcdict[i].reset()
                 p.changelocation(exitdict[i].getfinish())
                 valid = True
         if valid == True:
@@ -149,13 +151,14 @@ class Item:
 
 #the class for creating the containers and their attributtes, as well as methods to manipulate their data as needed to achieve game actions
 class Container:
-    def __init__(self,id,name,description,inv,open,key,tags):
+    def __init__(self,id,name,description,inv,open,key,locked,tags):
         self.__id = id
         self.__name = name
         self.__description = description
         self.__inv = inv
         self.__open = open
         self.__key = key
+        self.__locked = locked
         self.__tags = tags
     def getid(self):
         return self.__id
@@ -172,17 +175,21 @@ class Container:
     def gettags(self):
         return self.__tags
     def open(self,key):
-        if len(self.__key) == 0:
+        if self.__locked == False:
             self.__open = True
             return "You open the " + self.__name + ".  "
-        elif key != '':
+        elif key != '' and self.__locked == True:
             if key in self.__key:
                 self.__open = True
+                self.__locked = False
                 return "You open the " + self.__name + " with the " + itemdict[key].getname() + ". "
             else:
                 return "Try as you might, the " + itemdict[key].getname() + " is unable to open the " + self.__name + ". "
         else:
             return "The " + self.__name + " will not open. It apears to require some form of key to unlock."
+    def close(self):
+        self.__open = False
+         return "You close the " + self.__name + ".  "
     def remove(self,item):
         self.__inv.remove(item)
 
@@ -190,13 +197,15 @@ class Container:
 
 #the class for creating the npcs and their attributtes, as well as methods to manipulate their data as needed to achieve game actions
 class Npc:
-    def __init__(self,id,name,description,health,inv,tags):
+    def __init__(self,id,name,description,health,inv,actions,tags):
         self.__id = id
         self.__name = name
         self.__description = description
         self.__health = health
         self.__inv = inv
+        self.__actions = actions
         self.__tags = tags
+        self.__seen = False
     def getid(self):
         return self.__id
     def getname(self):
@@ -216,6 +225,14 @@ class Npc:
         else:
             roomdict[player.getlocation()].killnpc(self.__id)
             return "The " + self.__name + " takes " + str(d) + " damage, and is slain!"
+    def action(self):
+        if self.__seen == False:
+            self.__seen = True
+            return self.__actions['start']
+        else:
+           return self.__actions['attack']
+    def reset(self):
+        self.__seen = False
 
 
 
@@ -257,7 +274,7 @@ cfile = open('data/containers.json')
 data = json.load(cfile)
 for i in data:
     k = data[i]
-    containerdict[i] = Container(i,k['name'],k['description'],k['inv'],k['open'],k['key'],k['tags'])
+    containerdict[i] = Container(i,k['name'],k['description'],k['inv'],k['open'],k['key'],k['locked'],k['tags'])
 cfile.close()
 
 
@@ -267,7 +284,7 @@ nfile = open('data/npcs.json')
 data = json.load(nfile)
 for i in data:
     k = data[i]
-    npcdict[i] = Npc(i,k['name'],k['description'],k['health'],k['inv'],k['tags'])
+    npcdict[i] = Npc(i,k['name'],k['description'],k['health'],k['inv'],k['actions'],k['tags'])
 nfile.close()
 
 

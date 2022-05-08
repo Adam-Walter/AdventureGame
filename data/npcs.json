@@ -4,20 +4,32 @@
     "description": "A cultist in dark red robes stained in blood holding a wicked looking dagger.",
     "health": 50,
     "inv": [ "3" ],
+    "actions": {
+      "start": "The Bloody Cultist looks at you startled and yells something in a strange tongue.",
+      "attack": "The Bloody Cultist lunges at you with his dagger, attempting to slice at your arteries with suprising persision."
+    },
     "tags": [ "enemy", "satanist", "cultist", "man", "bloody" ]
   },
   "2": {
     "name": "Wailing Ghoul",
-    "description": "A hunched figure surrounded by cat food and glue, he wails for the day man that could not manage to protect this little boys soul.",
+    "description": "A disgusting figure surrounded by cat food and glue, he wails for the day man that could not manage to protect this little boys soul.",
     "health": 25,
     "inv": [],
+    "actions": {
+      "start": "The Ghoul wails as he writhes on the ground, like some sort of detestable creature known for slithering along the ground during the night.",
+      "attack": "The Ghoul lunges forward quicker than expected, grabbing at you with it's filthy claws."
+    },
     "tags": [ "enemy", "ghoul", "monster", "charlie" ]
   },
   "3": {
     "name": "Crazed Cultist",
-    "description": "A cultist in dark red robes with a mad look in his eyes holding a wicked looking dagger.",
+    "description": "A cultist in dark red robes with a mad look in his eyes.",
     "health": 75,
     "inv": [ "3" ],
+    "actions": {
+      "start": "The Crazed Cultist unsheaths a menacing looking dagger.",
+      "attack": "The Crazed Cultist lunges at you with his dagger, slicing furiously at your face."
+    },
     "tags": [ "enemy", "satanist", "cultist", "man", "crazed" ]
   }
 }

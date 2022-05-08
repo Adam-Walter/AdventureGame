@@ -11,5 +11,6 @@
   "take": "take",
   "drop": "drop",
   "inv": "checkinv",
-  "open": "open"
+  "open": "open",
+  "close": "close"
 }
