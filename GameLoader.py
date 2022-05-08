@@ -189,7 +189,7 @@ class Container:
             return "The " + self.__name + " will not open. It apears to require some form of key to unlock."
     def close(self):
         self.__open = False
-         return "You close the " + self.__name + ".  "
+        return "You close the " + self.__name + ".  "
     def remove(self,item):
         self.__inv.remove(item)
 
