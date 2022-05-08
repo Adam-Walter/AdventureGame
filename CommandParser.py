@@ -9,12 +9,7 @@ cfile = open('data/commands.json')
 commanddict = json.load(cfile)
 cfile.close()
 
-
-
-#open itemtags.json and create a list off all possible words that will reference a weapon
-#tfile = open('data/itemtags.json')
-#itemtags = json.load(tfile)
-#tfile.close()
+#create a list of all the item tags in the game
 itemtags = []
 for i in gl.itemdict:
     for j in gl.itemdict[i].gettags():
