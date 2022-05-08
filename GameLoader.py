@@ -171,9 +171,18 @@ class Container:
         return self.__key
     def gettags(self):
         return self.__tags
-    def open(self):
-        self.__open = True
-        return "You open the " + self.__name + ".  "
+    def open(self,key):
+        if len(self.__key) == 0:
+            self.__open = True
+            return "You open the " + self.__name + ".  "
+        elif key != '':
+            if key in self.__key:
+                self.__open = True
+                return "You open the " + self.__name + " with the " + itemdict[key].getname() + ". "
+            else:
+                return "Try as you might, the " + itemdict[key].getname() + " is unable to open the " + self.__name + ". "
+        else:
+            return "The " + self.__name + " will not open. It apears to require some form of key to unlock."
     def remove(self,item):
         self.__inv.remove(item)
 

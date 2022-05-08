@@ -12,9 +12,14 @@ cfile.close()
 
 
 #open itemtags.json and create a list off all possible words that will reference a weapon
-tfile = open('data/itemtags.json')
-itemtags = json.load(tfile)
-tfile.close()
+#tfile = open('data/itemtags.json')
+#itemtags = json.load(tfile)
+#tfile.close()
+itemtags = []
+for i in gl.itemdict:
+    for j in gl.itemdict[i].gettags():
+        if j not in itemtags:
+            itemtags.append(j)
 
 
 
@@ -52,6 +57,7 @@ def parseinput(input):
 
 
 #Parse through the room that the player is currently in and format all of the enviroment, item, and npc data into a format that is ready to print to the terminal
+#This is the function that will always be used to  display the enviroment to the player
 def displayenv():
 
     #add the description of the current room to the output string
@@ -89,7 +95,7 @@ def displayenv():
             __aan = 'a ' 
 
 
-
+        #Add the next item
         if __count == 1 and __count != __invlen:
             s+= "You see " + __aan + gl.itemdict[i].getname() + ', '
         elif __count == 1 and __count == __invlen:
@@ -116,7 +122,7 @@ def displayenv():
             __aan = 'a '
             
 
-
+        #Add the next conatainer
         if __count == 1 and __count != __contlen:
             s+="There is " + __aan + gl.containerdict[i].getname() + ', '
         elif __count == 1 and __count == __contlen:
@@ -146,7 +152,7 @@ def displayenv():
                     __aan = 'a ' 
 
 
-
+                #Add the next item in the container
                 if __count == 1 and __count != __invlen:
                     s+="In the " + gl.containerdict[i].getname() + " there is " + __aan + gl.itemdict[k].getname() + ", "
                 elif __count == 1 and __count == __invlen:
@@ -173,7 +179,7 @@ def displayenv():
             __aan = 'a ' 
 
 
-
+        #Add the next NPC in the room
         if __count == 1 and __count != __npclen:
             s+= "There is " + __aan + gl.npcdict[i].getname() + ', '
         elif __count == 1 and __count == __npclen:
@@ -191,7 +197,8 @@ def displayenv():
 
 
 
-#Function to return the description of what the player is attempting to look at or if no target is determined returns a description of the enviroment using the displayenv function
+#Function to return the description of what the player is attempting to look at 
+#if no target is determined it will call and return a description of the enviroment using the displayenv function
 def look(i):
     target = ''
     for j in i:
@@ -314,8 +321,12 @@ def checkinv(i):
 #function to open a container
 def open(i):
     target = ''
+    argument = ''
     for k in i:
         for j in gl.roomdict[gl.player.getlocation()].getcontainers():
             if k in gl.containerdict[j].gettags():
                 target = gl.containerdict[j]
-    return target.open()
+        for j in gl.player.getinv():
+            if k in gl.itemdict[j].gettags():
+                argument = gl.itemdict[j].getid()
+    return target.open(argument)

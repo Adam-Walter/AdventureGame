@@ -16,5 +16,11 @@
     "description": "A terrifying dagger with a red ruby in the handle, and a serrated edge designed to tear open arteries and let blood rush forth...",
     "damage": 75,
     "tags": [ "dagger", "blade", "knife" ]
+  },
+  "4": {
+    "name": "Brass Key",
+    "description": "A tarnished brass key, worn with age.",
+    "damage": 1,
+    "tags": [ "key", "brass" ]
   }
 }

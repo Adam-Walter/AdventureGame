@@ -4,13 +4,13 @@
     "description": "An old oak chest worn with age.",
     "inv": [ "2" ],
     "open": false,
-    "key": [],
+    "key": [ "4" ],
     "tags": [ "chest", "oak", "trunk" ]
   },
   "2": {
     "name": "Rusty Mailbox",
     "description": "A rusty old mailbox, its broken flag creaking in the wind.",
-    "inv": [ "2","3" ],
+    "inv": [ "2","3","4" ],
     "open": true,
     "key": [],
     "tags": [ "mail", "box", "mailbox", "box" ]
